@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Celestial Gala - A Midnight Garden Party</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed-dim": "#d1c79d",
+              "inverse-on-surface": "#283044",
+              "surface-dim": "#0b1326",
+              "on-error-container": "#ffdad6",
+              "primary-container": "#4c1d95",
+              "secondary-fixed": "#f0dbff",
+              "inverse-surface": "#dae2fd",
+              "on-primary-fixed-variant": "#572ba0",
+              "inverse-primary": "#6f46b9",
+              "surface-container-high": "#222a3d",
+              "primary-fixed-dim": "#d3bbff",
+              secondary: "#ddb8ff",
+              "outline-variant": "#4a4452",
+              "secondary-container": "#62259b",
+              "surface-tint": "#d3bbff",
+              "on-error": "#690005",
+              "secondary-fixed-dim": "#ddb8ff",
+              "on-tertiary": "#363113",
+              "tertiary-container": "#b4ab84",
+              error: "#ffb4ab",
+              "error-container": "#93000a",
+              "on-tertiary-fixed": "#201c02",
+              "on-primary-fixed": "#260059",
+              "on-secondary-fixed-variant": "#62259b",
+              "surface-container": "#171f33",
+              tertiary: "#d1c79d",
+              "on-secondary-fixed": "#2c0051",
+              background: "#0b1326",
+              "on-primary": "#3f0689",
+              "primary-fixed": "#ebdcff",
+              "surface-container-lowest": "#060e20",
+              "on-surface": "#dae2fd",
+              "surface-bright": "#31394d",
+              "on-tertiary-container": "#453f20",
+              "surface-container-low": "#131b2e",
+              "surface-container-highest": "#2d3449",
+              outline: "#958e9e",
+              "on-primary-container": "#b994ff",
+              "on-surface-variant": "#ccc3d4",
+              "on-tertiary-fixed-variant": "#4d4727",
+              "on-secondary-container": "#d1a1ff",
+              "on-secondary": "#490081",
+              surface: "#0b1326",
+              "tertiary-fixed": "#ede3b8",
+              primary: "#d3bbff",
+              "surface-variant": "#2d3449",
+              "on-background": "#dae2fd",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              "container-padding": "24px",
+              gutter: "16px",
+              "section-gap": "64px",
+              base: "8px",
+            },
+            fontFamily: {
+              "headline-md": ["Playfair Display"],
+              "display-lg": ["Playfair Display"],
+              "label-sm": ["Inter"],
+              "body-lg": ["Inter"],
+              "display-lg-mobile": ["Playfair Display"],
+              "body-md": ["Inter"],
+            },
+            fontSize: {
+              "headline-md": ["32px", { lineHeight: "1.3", fontWeight: "600" }],
+              "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+              "label-sm": ["14px", { lineHeight: "1", letterSpacing: "0.05em", fontWeight: "600" }],
+              "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+              "display-lg-mobile": ["36px", { lineHeight: "1.2", fontWeight: "700" }],
+              "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: theme("colors.background");
+        color: theme("colors.on-background");
+        margin: 0;
+        overflow-x: hidden;
+        font-family: "Inter", sans-serif;
+      }
+
+      .glass-panel {
+        background: rgba(209, 161, 255, 0.1);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      }
+
+      .glass-card {
+        background: rgba(209, 161, 255, 0.05);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid;
+        border-image-source: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(209, 161, 255, 0.05) 100%);
+        border-image-slice: 1;
+      }
+
+      .page-section {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateY(20px);
+      }
+
+      .page-section.active {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .float-anim {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .gift-lid {
+        transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform-origin: bottom center;
+      }
+
+      .gift-open .gift-lid {
+        transform: rotateX(120deg) translateY(-20px);
+      }
+
+      .photo-flyout {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+        transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        pointer-events: none;
+      }
+
+      /* Layout Foto untuk Desktop */
+      .gift-open .photo-flyout:nth-of-type(1) {
+        transform: translate(calc(-50% - 350px), calc(-50% - 250px)) scale(1) rotate(-25deg);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .gift-open .photo-flyout:nth-of-type(2) {
+        transform: translate(calc(-50% + 350px), calc(-50% - 150px)) scale(1) rotate(20deg);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .gift-open .photo-flyout:nth-of-type(3) {
+        transform: translate(calc(-50% - 280px), calc(-50% + 180px)) scale(1) rotate(-15deg);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .gift-open .photo-flyout:nth-of-type(4) {
+        transform: translate(calc(-50% + 320px), calc(-50% + 220px)) scale(1) rotate(15deg);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .gift-open .photo-flyout:nth-of-type(5) {
+        transform: translate(calc(-50% - 480px), calc(-50% + 20px)) scale(1) rotate(-10deg);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .gift-open .photo-flyout:nth-of-type(6) {
+        transform: translate(calc(-50% + 460px), calc(-50% - 30px)) scale(1) rotate(12deg);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .gift-open .photo-flyout:nth-of-type(7) {
+        transform: translate(calc(-50% - 120px), calc(-50% - 380px)) scale(1) rotate(-5deg);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .gift-open .photo-flyout:nth-of-type(8) {
+        transform: translate(calc(-50% + 180px), calc(-50% - 320px)) scale(1) rotate(8deg);
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .typewriter::after {
+        content: "|";
+        animation: blink 1s step-end infinite;
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .polaroid {
+        background: theme("colors.surface-container-lowest");
+        padding: 12px 12px 48px 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        transition: all 0.4s ease;
+      }
+
+      .polaroid:hover {
+        transform: scale(1.05) rotate(0deg) !important;
+        box-shadow: 0 15px 30px rgba(76, 29, 149, 0.4);
+        z-index: 10;
+      }
+
+      .erase-text::after {
+        content: "|";
+        animation: blink 1s step-end infinite;
+      }
+
+      .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: theme("colors.primary");
+        opacity: 0;
+      }
+
+      #prayer-text::after {
+        content: "|";
+        animation: blink 0.7s infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .animate-spin-slow {
+        animation: spin 8s linear infinite;
+      }
+
+      /* === STYLING KHUSUS ELEMEN BULAN DAN BINTANG === */
+      #sky-bg {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0; /* Tetap berada di latar belakang */
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      #sky-bg .moon_outer {
+        position: absolute;
+        left: 30px;
+        top: 30px;
+        z-index: 50;
+      }
+
+      #sky-bg .moon {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background-color: rgb(230, 224, 224);
+        box-shadow: 0px 0px 25px 8px rgba(235, 235, 231, 0.4);
+        position: relative;
+        overflow: hidden;
+        animation: moonShine 3s ease-in-out infinite alternate;
+      }
+
+      @keyframes moonShine {
+        from {
+          box-shadow: 0px 0px 15px 4px rgba(235, 235, 231, 0.3);
+        }
+        to {
+          box-shadow: 0px 0px 30px 10px rgba(235, 235, 231, 0.6);
+        }
+      }
+
+      #sky-bg .details {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: rgba(165, 165, 165, 0.089);
+      }
+
+      #sky-bg .details.one {
+        position: absolute;
+        top: 20px;
+        left: 40px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: transparent;
+        box-shadow: inset 2px 0 4px rgba(167, 167, 167, 0.685);
+      }
+
+      #sky-bg .details.two {
+        position: absolute;
+        top: 60px;
+        left: 16px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: transparent;
+        box-shadow: inset -2px 0 4px rgba(167, 167, 167, 0.685);
+      }
+
+      #sky-bg .details.three {
+        position: absolute;
+        top: 70px;
+        left: 70px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: transparent;
+        box-shadow: inset 2px 0 4px rgba(167, 167, 167, 0.685);
+      }
+
+      #sky-bg .details.four.small {
+        position: absolute;
+        top: 40px;
+        left: 60px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: transparent;
+        box-shadow: inset 2px 0 4px rgba(167, 167, 167, 0.585);
+      }
+
+      #stars > i {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff;
+        animation: animateStar linear infinite;
+      }
+
+      @keyframes animateStar {
+        0% {
+          opacity: 0;
+        }
+        25% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 1;
+        }
+        95% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* === PENYESUAIAN KHUSUS LAYAR MOBILE (< 768px) === */
+      @media (max-width: 768px) {
+        #gift-box {
+          transform: scale(0.75);
+        }
+
+        .gift-open .photo-flyout:nth-of-type(1) {
+          transform: translate(calc(-50% - 110px), calc(-50% - 180px)) scale(0.65) rotate(-15deg) !important;
+        }
+        .gift-open .photo-flyout:nth-of-type(2) {
+          transform: translate(calc(-50% + 110px), calc(-50% - 180px)) scale(0.65) rotate(15deg) !important;
+        }
+        .gift-open .photo-flyout:nth-of-type(3) {
+          transform: translate(calc(-50% - 120px), calc(-50% + 120px)) scale(0.65) rotate(-10deg) !important;
+        }
+        .gift-open .photo-flyout:nth-of-type(4) {
+          transform: translate(calc(-50% + 120px), calc(-50% + 120px)) scale(0.65) rotate(10deg) !important;
+        }
+        .gift-open .photo-flyout:nth-of-type(5) {
+          transform: translate(calc(-50% - 130px), calc(-50% - 30px)) scale(0.65) rotate(-20deg) !important;
+        }
+        .gift-open .photo-flyout:nth-of-type(6) {
+          transform: translate(calc(-50% + 130px), calc(-50% - 30px)) scale(0.65) rotate(20deg) !important;
+        }
+        .gift-open .photo-flyout:nth-of-type(7) {
+          transform: translate(calc(-50% - 40px), calc(-50% - 240px)) scale(0.65) rotate(-5deg) !important;
+        }
+        .gift-open .photo-flyout:nth-of-type(8) {
+          transform: translate(calc(-50% + 40px), calc(-50% + 230px)) scale(0.65) rotate(8deg) !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen relative flex flex-col">
+    <!-- ELEMEN LATAR BELAKANG BULAN DAN BINTANG -->
+    <div id="sky-bg">
+      <div class="moon_outer">
+        <div class="moon">
+          <div class="details"></div>
+          <div class="details one"></div>
+          <div class="details two"></div>
+          <div class="details three"></div>
+          <div class="details four small"></div>
+        </div>
+      </div>
+      <section id="stars"></section>
+    </div>
+
+    <!-- Gradient Overlay Penyeimbang Warna -->
+    <div class="fixed inset-0 w-full h-full -z-10 pointer-events-none bg-gradient-to-b from-background/40 to-background/90"></div>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex items-center justify-center px-container-padding relative z-10 w-full max-w-7xl mx-auto min-h-screen">
+      <!-- Page 1: Landing & Countdown -->
+      <section class="page-section active flex-col items-center justify-center w-full min-h-[716px]" id="page-home">
+        <div class="text-center mb-12 max-w-3xl float-anim">
+          <h1 id="hero-typing" class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-primary-fixed mb-4 erase-text"></h1>
+          <h2 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-transparent bg-clip-text bg-gradient-to-b from-white to-primary-fixed mb-4">Her Special Day <br />For you</h2>
+          <p class="text-body-md md:text-body-lg font-body-md md:font-body-lg text-on-surface-variant max-w-2xl mx-auto">Sesuatu yang indah sedang menunggu untukmu ❤️</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 w-full max-w-4xl">
+          <!-- Countdown Cards -->
+          <div class="glass-panel rounded-2xl p-6 flex flex-col items-center justify-center border border-primary/20">
+            <span class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-secondary" id="days">14</span>
+            <span class="text-label-sm font-label-sm text-tertiary uppercase tracking-widest mt-2">Days</span>
+          </div>
+          <div class="glass-panel rounded-2xl p-6 flex flex-col items-center justify-center border border-primary/20">
+            <span class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-secondary" id="hours">08</span>
+            <span class="text-label-sm font-label-sm text-tertiary uppercase tracking-widest mt-2">Hours</span>
+          </div>
+          <div class="glass-panel rounded-2xl p-6 flex flex-col items-center justify-center border border-primary/20">
+            <span class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-secondary" id="minutes">45</span>
+            <span class="text-label-sm font-label-sm text-tertiary uppercase tracking-widest mt-2">Minutes</span>
+          </div>
+          <div class="glass-panel rounded-2xl p-6 flex flex-col items-center justify-center border border-primary/20">
+            <span class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-secondary" id="seconds">30</span>
+            <span class="text-label-sm font-label-sm text-tertiary uppercase tracking-widest mt-2">Seconds</span>
+          </div>
+        </div>
+        <button
+          class="mt-16 px-8 py-4 rounded-full bg-gradient-to-r from-primary-container to-secondary-container text-white text-body-lg font-body-lg hover:shadow-[0_0_20px_rgba(108,37,155,0.6)] transition-all flex items-center gap-2 group"
+          onclick="navTo('gift')"
+        >
+          Next
+          <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </button>
+      </section>
+      <section class="page-section flex-col items-center justify-center w-full min-h-[716px] relative overflow-hidden" id="page-prayer">
+        <h2 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary-fixed mb-12 min-h-[60px] text-center erase-text" id="typing-header"></h2>
+        <div class="glass-panel w-full max-w-md p-8 rounded-3xl relative z-20 border border-t-white/30 border-l-white/30 float-anim flex flex-col items-center text-center">
+          <span class="material-symbols-outlined text-4xl text-tertiary mb-6" style="font-variation-settings: 'FILL' 1">favorite</span>
+
+          <!-- Teks Doa dengan Efek Ketik -->
+          <p class="text-body-lg font-body-lg text-on-surface-variant leading-relaxed mb-6 italic min-h-[120px]" id="prayer-text"></p>
+
+          <div class="w-16 h-px bg-gradient-to-r from-transparent via-tertiary to-transparent mb-4"></div>
+          <p class="text-label-sm font-label-sm text-secondary uppercase tracking-widest">With Love</p>
+        </div>
+        <div class="absolute inset-0 pointer-events-none z-10 overflow-hidden" id="confetti-container"></div>
+      </section>
+      <!-- Page 2: Interactive Gift -->
+      <section class="page-section flex-col items-center justify-center w-full min-h-[716px] relative" id="page-gift">
+        <h2 class="text-headline-md font-headline-md text-primary mb-12 text-center absolute top-0 w-full opacity-0 transition-opacity duration-1000" id="gift-title"></h2>
+        <div class="relative w-64 h-64 cursor-pointer float-anim" id="gift-box" onclick="openGift()">
+          <!-- Minimalist Gift Icon -->
+          <div class="w-full h-full relative z-20">
+            <div class="absolute bottom-0 w-full h-48 bg-primary-container rounded-b-xl border border-primary-fixed/30 shadow-[0_0_40px_rgba(76,29,149,0.5)]">
+              <div class="absolute left-1/2 -translate-x-1/2 w-8 h-full bg-tertiary"></div>
+            </div>
+            <div class="gift-lid absolute top-4 w-[110%] -left-[5%] h-16 bg-secondary-container rounded-t-xl border border-secondary/30 z-30">
+              <div class="absolute left-1/2 -translate-x-1/2 w-8 h-full bg-tertiary"></div>
+              <!-- Bow -->
+              <div class="absolute -top-10 left-1/2 -translate-x-1/2 flex">
+                <div class="w-12 h-12 border-4 border-tertiary rounded-full -mr-2"></div>
+                <div class="w-12 h-12 border-4 border-tertiary rounded-full -ml-2"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Flyout Photos -->
+          <div class="photo-flyout w-32 h-40 bg-white p-2 shadow-xl rounded-sm z-10" style="transition-delay: 0.1s">
+            <img class="w-full h-28 object-cover mb-2" src="gambar1.jpeg" />
+          </div>
+          <div class="photo-flyout w-32 h-40 bg-white p-2 shadow-xl rounded-sm z-10" style="transition-delay: 0.15s">
+            <img class="w-full h-28 object-cover mb-2" src="gambar2.jpeg" />
+          </div>
+          <div class="photo-flyout w-32 h-40 bg-white p-2 shadow-xl rounded-sm z-10" style="transition-delay: 0.2s">
+            <img class="w-full h-28 object-cover mb-2" src="gambar3.jpeg" />
+          </div>
+          <div class="photo-flyout w-32 h-40 bg-white p-2 shadow-xl rounded-sm z-10" style="transition-delay: 0.25s">
+            <img class="w-full h-28 object-cover mb-2" src="gambar4.jpeg" />
+          </div>
+          <div class="photo-flyout w-32 h-40 bg-white p-2 shadow-xl rounded-sm z-10" style="transition-delay: 0.3s">
+            <img class="w-full h-28 object-cover mb-2" src="gambar5.jpeg" />
+          </div>
+          <div class="photo-flyout w-32 h-40 bg-white p-2 shadow-xl rounded-sm z-10" style="transition-delay: 0.35s">
+            <img class="w-full h-28 object-cover mb-2" src="gambar6.jpeg" />
+          </div>
+          <div class="photo-flyout w-32 h-40 bg-white p-2 shadow-xl rounded-sm z-10" style="transition-delay: 0.4s">
+            <img class="w-full h-28 object-cover mb-2" src="gambar7.jpeg" />
+          </div>
+          <div class="photo-flyout w-32 h-40 bg-white p-2 shadow-xl rounded-sm z-10" style="transition-delay: 0.45s">
+            <img class="w-full h-28 object-cover mb-2" src="gambar8.jpeg" />
+          </div>
+        </div>
+        <button
+          class="absolute bottom-0 opacity-0 px-8 py-3 rounded-full bg-surface-bright text-on-surface border border-outline-variant hover:bg-surface-variant transition-all mt-12 pointer-events-none"
+          id="gift-next-btn"
+          onclick="navTo('gallery')"
+        >
+          View Memories
+        </button>
+      </section>
+
+      <!-- Page: Video Moments Gallery -->
+      <section class="page-section flex-col items-center justify-center w-full min-h-[716px] relative px-4 py-12" id="page-videos">
+        <h2 class="text-headline-md font-headline-md text-secondary mb-8 text-center">Video Moments</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl z-20">
+          <!-- Video Card 1 -->
+          <div class="glass-panel rounded-3xl p-4 border border-white/20 shadow-xl flex flex-col items-center relative group overflow-hidden">
+            <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black/50 flex items-center justify-center">
+              <!-- Gantilah src video di bawah dengan file video kamu (mp4/webm) -->
+              <video id="video-1" class="w-full h-full object-cover rounded-2xl" preload="metadata" onclick="toggleVideo('video-1', 'play-btn-1')">
+                <source src="video1.mp4" type="video/mp4" />
+                Browser kamu tidak mendukung pemutaran video.
+              </video>
+
+              <!-- Custom Play Button Overlay -->
+              <button
+                id="play-btn-1"
+                onclick="toggleVideo('video-1', 'play-btn-1')"
+                class="absolute w-16 h-16 rounded-full bg-primary/80 hover:bg-primary text-on-primary flex items-center justify-center backdrop-blur-md shadow-lg transition-transform group-hover:scale-110"
+              >
+                <span class="material-symbols-outlined text-3xl">play_arrow</span>
+              </button>
+            </div>
+
+            <div class="w-full mt-4 text-center">
+              <h3 class="text-body-lg font-semibold text-primary">Special Moment 1</h3>
+              <p class="text-label-sm text-on-surface-variant mt-1">A sweet memory captured in motion ✨</p>
+            </div>
+          </div>
+
+          <!-- Video Card 2 -->
+          <div class="glass-panel rounded-3xl p-4 border border-white/20 shadow-xl flex flex-col items-center relative group overflow-hidden">
+            <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black/50 flex items-center justify-center">
+              <video id="video-2" class="w-full h-full object-cover rounded-2xl" preload="metadata" onclick="toggleVideo('video-2', 'play-btn-2')">
+                <source src="video2.mp4" type="video/mp4" />
+                Browser kamu tidak mendukung pemutaran video.
+              </video>
+
+              <!-- Custom Play Button Overlay -->
+              <button
+                id="play-btn-2"
+                onclick="toggleVideo('video-2', 'play-btn-2')"
+                class="absolute w-16 h-16 rounded-full bg-primary/80 hover:bg-primary text-on-primary flex items-center justify-center backdrop-blur-md shadow-lg transition-transform group-hover:scale-110"
+              >
+                <span class="material-symbols-outlined text-3xl">play_arrow</span>
+              </button>
+            </div>
+
+            <div class="w-full mt-4 text-center">
+              <h3 class="text-body-lg font-semibold text-primary">Special Moment 2</h3>
+              <p class="text-label-sm text-on-surface-variant mt-1">Forever in my heart 💖</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="mt-10 px-8 py-3 rounded-full border border-primary text-primary hover:bg-primary/10 transition-all font-label-sm text-label-sm" onclick="navTo('prayer')">Next Chapter</button>
+      </section>
+
+      <!-- Page 4: Our Memories Gallery -->
+      <section class="page-section flex-col items-center justify-start w-full min-h-[716px]" id="page-gallery">
+        <h2 class="text-headline-md font-headline-md text-secondary mb-12 text-center">Cherished Moments</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl px-4 pb-12">
+          <!-- Gallery Item 1 -->
+          <div class="polaroid transform rotate-2">
+            <img
+              class="w-full aspect-square object-cover mb-3"
+              src="gambar2.jpeg"
+            />
+            <p class="text-center text-surface font-label-sm text-label-sm">The Beginning</p>
+          </div>
+          <!-- Gallery Item 2 -->
+          <div class="polaroid transform -rotate-3 mt-4 md:mt-12">
+            <img
+              class="w-full aspect-square object-cover mb-3"
+              src="gambar6.jpeg"
+            />
+            <p class="text-center text-surface font-label-sm text-label-sm">Under the Stars</p>
+          </div>
+          <!-- Gallery Item 3 -->
+          <div class="polaroid transform rotate-1 md:mt-24">
+            <img
+              class="w-full aspect-square object-cover mb-3"
+              src="gambar5.jpeg"
+            />
+            <p class="text-center text-surface font-label-sm text-label-sm">A Perfect Night</p>
+          </div>
+          <!-- Gallery Item 4 -->
+          <div class="polaroid transform -rotate-2 md:mt-24">
+            <img
+              class="w-full aspect-square object-cover mb-3"
+              src="gambar4.jpeg"
+            />
+            <p class="text-center text-surface font-label-sm text-label-sm">A Perfect Night</p>
+          </div>
+          <!-- Gallery Item 5 -->
+          <div class="polaroid transform rotate-2 md:mt-24">
+            <img
+              class="w-full aspect-square object-cover mb-3"
+              src="gambar1.jpeg"
+            />
+            <p class="text-center text-surface font-label-sm text-label-sm">The Beginning</p>
+          </div>
+          <!-- Gallery Item 6 -->
+          <div class="polaroid transform rotate-2 md:mt-24">
+            <img
+              class="w-full aspect-square object-cover mb-3"
+              src="gambar3.jpeg"
+            />
+            <p class="text-center text-surface font-label-sm text-label-sm">The Beginning</p>
+          </div>
+        </div>
+        <button class="mt-8 px-8 py-3 rounded-full border border-primary text-primary hover:bg-primary/10 transition-all font-label-sm text-label-sm" onclick="navTo('video')">Next Chapter</button>
+      </section>
+      <!-- Page: Video Moments Gallery -->
+      <section class="page-section flex-col items-center justify-center w-full min-h-[716px] relative px-4 py-12" id="page-video">
+        <h2 class="text-headline-md font-headline-md text-secondary mb-8 text-center">Video Moments</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl z-20">
+          <!-- Video Card 1 -->
+          <div class="glass-panel rounded-3xl p-4 border border-white/20 shadow-xl flex flex-col items-center relative group overflow-hidden">
+            <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black/50 flex items-center justify-center">
+              <!-- Ditambahkan atribut loop -->
+              <video id="video-1" class="w-full h-full object-cover rounded-2xl cursor-pointer" preload="metadata" autoplay muted loop playsinline onclick="toggleVideo('video-1', 'play-btn-1')">
+                <source src="video1.mp4" type="video/mp4" />
+                Browser kamu tidak mendukung pemutaran video.
+              </video>
+
+              <!-- Tombol play awal tersembunyi (hidden) -->
+              <button
+                id="play-btn-1"
+                onclick="toggleVideo('video-1', 'play-btn-1')"
+                class="hidden absolute w-16 h-16 rounded-full bg-primary/80 hover:bg-primary text-on-primary flex items-center justify-center backdrop-blur-md shadow-lg transition-transform group-hover:scale-110"
+              >
+                <span class="material-symbols-outlined text-3xl">play_arrow</span>
+              </button>
+            </div>
+
+            <div class="w-full mt-4 text-center">
+              <h3 class="text-body-lg font-semibold text-primary">Special Moment 1</h3>
+              <p class="text-label-sm text-on-surface-variant mt-1">A sweet memory captured in motion ✨</p>
+            </div>
+          </div>
+
+          <!-- Video Card 2 -->
+          <div class="glass-panel rounded-3xl p-4 border border-white/20 shadow-xl flex flex-col items-center relative group overflow-hidden">
+            <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black/50 flex items-center justify-center">
+              <!-- Ditambahkan atribut loop -->
+              <video id="video-2" class="w-full h-full object-cover rounded-2xl cursor-pointer" preload="metadata" autoplay muted loop playsinline onclick="toggleVideo('video-2', 'play-btn-2')">
+                <source src="video2.mp4" type="video/mp4" />
+                Browser kamu tidak mendukung pemutaran video.
+              </video>
+
+              <!-- Tombol play awal tersembunyi (hidden) -->
+              <button
+                id="play-btn-2"
+                onclick="toggleVideo('video-2', 'play-btn-2')"
+                class="hidden absolute w-16 h-16 rounded-full bg-primary/80 hover:bg-primary text-on-primary flex items-center justify-center backdrop-blur-md shadow-lg transition-transform group-hover:scale-110"
+              >
+                <span class="material-symbols-outlined text-3xl">play_arrow</span>
+              </button>
+            </div>
+
+            <div class="w-full mt-4 text-center">
+              <h3 class="text-body-lg font-semibold text-primary">Special Moment 2</h3>
+              <p class="text-label-sm text-on-surface-variant mt-1">Forever in my heart 💖</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="mt-10 px-8 py-3 rounded-full border border-primary text-primary hover:bg-primary/10 transition-all font-label-sm text-label-sm" onclick="navTo('prayer')">Next Chapter</button>
+      </section>
+      <!-- Page 6: Prayer Card & Erase Effect -->
+      <section class="page-section flex-col items-center justify-center w-full min-h-[716px] relative overflow-hidden" id="page-prayer">
+        <h2 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary-fixed mb-12 min-h-[60px] text-center erase-text" id="typing-header"></h2>
+        <div class="glass-panel w-full max-w-md p-8 rounded-3xl relative z-20 border border-t-white/30 border-l-white/30 float-anim flex flex-col items-center text-center">
+          <span class="material-symbols-outlined text-4xl text-tertiary mb-6" style="font-variation-settings: 'FILL' 1">favorite</span>
+
+          <!-- Teks Doa dengan Efek Ketik -->
+          <p class="text-body-lg font-body-lg text-on-surface-variant leading-relaxed mb-6 italic min-h-[120px]" id="prayer-text"></p>
+
+          <div class="w-16 h-px bg-gradient-to-r from-transparent via-tertiary to-transparent mb-4"></div>
+          <p class="text-label-sm font-label-sm text-secondary uppercase tracking-widest">With Love</p>
+        </div>
+        <div class="absolute inset-0 pointer-events-none z-10 overflow-hidden" id="confetti-container"></div>
+      </section>
+    </main>
+
+    <!-- Floating Audio Player -->
+    <div class="fixed bottom-6 right-6 z-50 flex items-center gap-3 glass-panel px-4 py-3 rounded-full border border-primary/30 shadow-2xl">
+      <audio id="bg-music" loop src="music.mp3"></audio>
+
+      <div id="music-disc" class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-container to-secondary-container flex items-center justify-center text-primary-fixed border border-primary/40 shadow-inner">
+        <span class="material-symbols-outlined text-xl">music_note</span>
+      </div>
+
+      <div class="hidden sm:flex flex-col pr-2">
+        <span class="text-xs font-semibold text-primary">A Thousand Years</span>
+        <span class="text-[10px] text-on-surface-variant/80">Romantic Piano</span>
+      </div>
+
+      <button id="music-btn" onclick="toggleMusic()" class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-md" title="Play / Pause Music">
+        <span id="music-icon" class="material-symbols-outlined text-2xl">play_arrow</span>
+      </button>
+    </div>
+
+    <script>
+      const heroPhrases = ["Hai Sayang...", "Happy Birthday! 💖", "I Love You So Much ✨"];
+      let heroPhraseIndex = 0;
+      let heroCharIndex = 0;
+      let heroIsDeleting = false;
+
+      function startHeroTypeEraseLoop() {
+        const heroElement = document.getElementById("hero-typing");
+        if (!heroElement) return;
+
+        const currentPhrase = heroPhrases[heroPhraseIndex];
+
+        if (heroIsDeleting) {
+          heroElement.innerText = currentPhrase.substring(0, heroCharIndex - 1);
+          heroCharIndex--;
+        } else {
+          heroElement.innerText = currentPhrase.substring(0, heroCharIndex + 1);
+          heroCharIndex++;
+        }
+
+        let typeSpeed = heroIsDeleting ? 50 : 100; // Kecepatan ngetik & hapus
+
+        if (!heroIsDeleting && heroCharIndex === currentPhrase.length) {
+          typeSpeed = 2000; // Jeda diam setelah selesai ngetik 1 kalimat
+          heroIsDeleting = true;
+        } else if (heroIsDeleting && heroCharIndex === 0) {
+          heroIsDeleting = false;
+          heroPhraseIndex = (heroPhraseIndex + 1) % heroPhrases.length;
+          typeSpeed = 500; // Jeda diam sebelum mulai ngetik kalimat berikutnya
+        }
+
+        setTimeout(startHeroTypeEraseLoop, typeSpeed);
+      }
+
+      // Jalankan animasi saat halaman dimuat
+      document.addEventListener("DOMContentLoaded", startHeroTypeEraseLoop);
+
+      // SCRIPT UNTUK MEMBUAT ELEMEN BINTANG SECARA DINAMIS
+      function createStars() {
+        const starsContainer = document.getElementById("stars");
+        if (!starsContainer) return;
+
+        starsContainer.innerHTML = ""; // Clear existing stars
+        const count = 60; // Jumlah bintang yang ingin ditampilkan
+
+        for (let i = 0; i < count; i++) {
+          const star = document.createElement("i");
+
+          // Posisi acak di seluruh layar
+          const x = Math.random() * window.innerWidth;
+          const y = Math.random() * window.innerHeight;
+
+          // Ukuran acak bintang (antara 1px - 3px)
+          const size = Math.random() * 2 + 1;
+
+          // Durasi & delay animasi acak agar kedipnya tidak barengan
+          const duration = Math.random() * 3 + 2; // 2s - 5s
+          const delay = Math.random() * 5;
+
+          star.style.left = `${x}px`;
+          star.style.top = `${y}px`;
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.animationDuration = `${duration}s`;
+          star.style.animationDelay = `${delay}s`;
+
+          starsContainer.appendChild(star);
+        }
+      }
+
+      // Jalankan saat dokumen siap
+      document.addEventListener("DOMContentLoaded", createStars);
+
+      // Resize listener agar bintang memenuhi layar saat window di-resize
+      window.addEventListener("resize", createStars);
+      // Audio Player Logic
+      const audio = document.getElementById("bg-music");
+      const musicBtn = document.getElementById("music-btn");
+      const musicIcon = document.getElementById("music-icon");
+      const musicDisc = document.getElementById("music-disc");
+      let isPlaying = false;
+
+      function toggleMusic() {
+        if (isPlaying) {
+          audio.pause();
+          musicIcon.innerText = "play_arrow";
+          musicDisc.classList.remove("animate-spin-slow");
+        } else {
+          audio
+            .play()
+            .then(() => {
+              musicIcon.innerText = "pause";
+              musicDisc.classList.add("animate-spin-slow");
+            })
+            .catch((err) => {
+              console.log("Autoplay blocked or audio load error:", err);
+            });
+        }
+        isPlaying = !isPlaying;
+      }
+
+      window.addEventListener(
+        "click",
+        function startAudioOnFirstClick() {
+          if (!isPlaying) {
+            audio
+              .play()
+              .then(() => {
+                isPlaying = true;
+                musicIcon.innerText = "pause";
+                musicDisc.classList.add("animate-spin-slow");
+              })
+              .catch(() => {});
+          }
+          window.removeEventListener("click", startAudioOnFirstClick);
+        },
+        { once: true },
+      );
+
+      // Navigation Logic
+      const pages = ["home", "gift", "gallery", "video", "prayer"];
+      let currentPage = "home";
+
+      // Fungsi pembantu untuk menghentikan semua video saat pindah halaman
+      function pauseAllVideos() {
+        document.querySelectorAll("video").forEach((video) => {
+          if (!video.paused) {
+            video.pause();
+            // Tampilkan kembali tombol play
+            const btnId = video.id.replace("video", "play-btn");
+            const btn = document.getElementById(btnId);
+            if (btn) btn.style.display = "flex";
+          }
+        });
+      }
+
+      function navTo(pageId) {
+        if (pageId === currentPage) return;
+
+        // 1. Pause semua video jika sedang diputar sebelum pindah halaman
+        pauseAllVideos();
+
+        document.getElementById(`page-${currentPage}`).classList.remove("active");
+
+        document.querySelectorAll(".nav-link").forEach((link) => {
+          link.classList.remove("text-primary", "dark:text-primary-fixed", "border-b-2", "border-primary", "pb-1");
+          link.classList.add("text-on-surface/70", "dark:text-on-surface-variant");
+        });
+
+        const activeLink = document.querySelector(`button[onclick="navTo('${pageId}')"]`);
+        if (activeLink && activeLink.classList.contains("nav-link")) {
+          activeLink.classList.remove("text-on-surface/70", "dark:text-on-surface-variant");
+          activeLink.classList.add("text-primary", "dark:text-primary-fixed", "border-b-2", "border-primary", "pb-1");
+        }
+
+        setTimeout(() => {
+          document.getElementById(`page-${pageId}`).classList.add("active");
+          currentPage = pageId;
+
+          if (pageId === "prayer") {
+            startTypeEraseLoop();
+            typePrayerText();
+            createConfetti();
+          }
+        }, 400);
+      }
+
+      function toggleMobileNav() {
+        const nav = document.getElementById("mobileNav");
+        nav.classList.toggle("-translate-x-full");
+      }
+      // Countdown Logic
+      // Tanggal target ulang tahun: 17 Agustus 2026 00:00:00
+      const targetDate = new Date("2026-08-17T00:00:00").getTime();
+
+      function updateCountdown() {
+        const days = document.getElementById("days");
+        const hours = document.getElementById("hours");
+        const mins = document.getElementById("minutes");
+        const secs = document.getElementById("seconds");
+
+        if (!days || !hours || !mins || !secs) return;
+
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        // Jika sudah mencapai atau melewati tanggal target
+        if (distance <= 0) {
+          days.innerText = "00";
+          hours.innerText = "00";
+          mins.innerText = "00";
+          secs.innerText = "00";
+          clearInterval(countdownTimer); // Hentikan timer
+          return;
+        }
+
+        // Perhitungan sisa hari, jam, menit, dan detik
+        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Update teks pada UI
+        days.innerText = d.toString().padStart(2, "0");
+        hours.innerText = h.toString().padStart(2, "0");
+        mins.innerText = m.toString().padStart(2, "0");
+        secs.innerText = s.toString().padStart(2, "0");
+      }
+
+      // Jalankan langsung sekali lalu di-loop setiap detik
+      updateCountdown();
+      const countdownTimer = setInterval(updateCountdown, 1000);
+
+      // Gift Logic
+      let giftOpened = false;
+      function openGift() {
+        if (giftOpened) return;
+        giftOpened = true;
+
+        const box = document.getElementById("gift-box");
+        const title = document.getElementById("gift-title");
+        const nextBtn = document.getElementById("gift-next-btn");
+
+        box.classList.add("gift-open");
+        title.innerText = "Memories Unlocked";
+        title.style.opacity = 1;
+
+        setTimeout(() => {
+          nextBtn.style.opacity = 1;
+          nextBtn.style.pointerEvents = "auto";
+        }, 1500);
+      }
+
+      // Type & Erase Effect Logic untuk Header Page 6
+      const phrases = ["A Wish For You...", "Happy Birthday...", "To New Beginnings..."];
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      const typingHeader = document.getElementById("typing-header");
+
+      function startTypeEraseLoop() {
+        if (!typingHeader) return;
+
+        const currentPhrase = phrases[phraseIndex];
+
+        if (isDeleting) {
+          typingHeader.innerText = currentPhrase.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          typingHeader.innerText = currentPhrase.substring(0, charIndex + 1);
+          charIndex++;
+        }
+
+        let typeSpeed = isDeleting ? 50 : 100;
+
+        if (!isDeleting && charIndex === currentPhrase.length) {
+          typeSpeed = 2000;
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          typeSpeed = 500;
+        }
+
+        setTimeout(startTypeEraseLoop, typeSpeed);
+      }
+
+      // Typewriter Effect Logic untuk Teks Doa
+      const prayerToType = "Untukmu yang selalu berhasil mencerahkan hari-hariku, selamat ulang tahun. Semoga usia baru ini dipenuhi dengan tawa yang jujur, malam-malam yang tenang, dan setiap doa baik yang perlahan mewujud nyata. Terima kasih telah menjadi sosok terindah dalam perjalanan hidupku. Semoga melangkah ke depan, kita bisa terus mengukir cerita manis bersama.";
+      const prayerElement = document.getElementById("prayer-text");
+      let prayerIndex = 0;
+      let isPrayerTyping = false;
+
+      function typePrayerText() {
+        if (isPrayerTyping || !prayerElement) return;
+
+        isPrayerTyping = true;
+        prayerElement.innerText = "";
+        prayerIndex = 0;
+
+        function typeChar() {
+          if (prayerIndex < prayerToType.length) {
+            prayerElement.innerText += prayerToType.charAt(prayerIndex);
+            prayerIndex++;
+            setTimeout(typeChar, 35);
+          } else {
+            isPrayerTyping = false;
+          }
+        }
+
+        typeChar();
+      }
+
+      // Confetti Logic
+      function createConfetti() {
+        const container = document.getElementById("confetti-container");
+        if (!container) return;
+        container.innerHTML = "";
+
+        const colors = ["#d3bbff", "#ddb8ff", "#d1c79d", "#ffffff"];
+
+        for (let i = 0; i < 50; i++) {
+          const conf = document.createElement("div");
+          conf.classList.add("confetti");
+
+          const left = Math.random() * 100;
+          const animDuration = 3 + Math.random() * 4;
+          const delay = Math.random() * 2;
+          const color = colors[Math.floor(Math.random() * colors.length)];
+
+          conf.style.left = `${left}%`;
+          conf.style.top = `-20px`;
+          conf.style.backgroundColor = color;
+
+          conf.animate(
+            [
+              { transform: `translate3d(0,0,0) rotate(0deg)`, opacity: 1 },
+              { transform: `translate3d(${Math.random() * 100 - 50}px, 100vh, 0) rotate(${Math.random() * 360}deg)`, opacity: 0 },
+            ],
+            {
+              duration: animDuration * 1000,
+              delay: delay * 1000,
+              iterations: 1,
+              easing: "cubic-bezier(.37,0,.63,1)",
+            },
+          );
+
+          container.appendChild(conf);
+        }
+      }
+    </script>
+  </body>
+</html>
